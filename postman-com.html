@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create User Account</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --primary-light: #818cf8;
+      --success: #22c55e;
+      --error: #ef4444;
+      --warning: #f59e0b;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-300: #cbd5e1;
+      --gray-400: #94a3b8;
+      --gray-500: #64748b;
+      --gray-600: #475569;
+      --gray-700: #334155;
+      --gray-800: #1e293b;
+      --gray-900: #0f172a;
+      --radius: 12px;
+      --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #f0f4ff 0%, #f8fafc 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      line-height: 1.6;
+      color: var(--gray-700);
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 440px;
+    }
+
+    .login-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 40px;
+      border: 1px solid var(--gray-200);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--primary-light), var(--primary));
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .logo {
+      width: 60px;
+      height: 60px;
+      background: var(--gray-100);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      color: var(--primary);
+      font-size: 28px;
+      border: 1px solid var(--gray-200);
+    }
+
+    .login-header h2 {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--gray-800);
+      margin-bottom: 8px;
+    }
+
+    .login-header p {
+      color: var(--gray-500);
+      font-size: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .input-wrapper input {
+      background: white;
+      border: 2px solid var(--gray-200);
+      border-radius: 8px;
+      padding: 18px 16px 6px 16px;
+      color: var(--gray-800);
+      font-size: 16px;
+      transition: var(--transition);
+      width: 100%;
+      outline: none;
+      height: 56px;
+    }
+
+    .input-wrapper input::placeholder {
+      color: transparent;
+    }
+
+    .input-wrapper label {
+      position: absolute;
+      left: 16px;
+      top: 18px;
+      color: var(--gray-500);
+      font-size: 16px;
+      transition: var(--transition);
+      pointer-events: none;
+      transform-origin: left top;
+    }
+
+    .input-wrapper input:focus,
+    .input-wrapper input:valid,
+    .input-wrapper input.has-value {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+
+    .input-wrapper input:focus+label,
+    .input-wrapper input:valid+label,
+    .input-wrapper input.has-value+label {
+      transform: translateY(-12px) scale(0.875);
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    .password-wrapper {
+      position: relative;
+    }
+
+    .password-wrapper input {
+      padding-right: 48px;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      color: var(--gray-400);
+      transition: var(--transition);
+      border-radius: 4px;
+    }
+
+    .password-toggle:hover {
+      color: var(--primary);
+      background: var(--gray-100);
+    }
+
+    .password-strength {
+      margin-top: 8px;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--gray-200);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .password-strength-fill {
+      height: 100%;
+      width: 0%;
+      transition: var(--transition);
+      border-radius: 3px;
+    }
+
+    .password-strength-text {
+      font-size: 12px;
+      color: var(--gray-500);
+      margin-top: 4px;
+      text-align: right;
+    }
+
+    .login-btn {
+      width: 100%;
+      background: var(--primary);
+      border: none;
+      border-radius: 8px;
+      padding: 16px 24px;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+    }
+
+    .login-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 10px -1px rgba(79, 70, 229, 0.3);
+    }
+
+    .login-btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-text {
+      transition: opacity 0.2s ease;
+    }
+
+    .btn-loader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      border: 2px solid transparent;
+      border-top: 2px solid white;
+      border-radius: 50%;
+      opacity: 0;
+      animation: spin 1s linear infinite;
+      transition: opacity 0.2s ease;
+    }
+
+    .login-btn.loading .btn-text {
+      opacity: 0;
+    }
+
+    .login-btn.loading .btn-loader {
+      opacity: 1;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+      }
+
+      100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
+    }
+
+    .popup {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 500;
+      text-align: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+      width: calc(100% - 80px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .popup.show {
+      opacity: 1;
+      visibility: visible;
+      bottom: 30px;
+    }
+
+    .popup.success {
+      background: var(--success);
+      color: white;
+    }
+
+    .popup.error {
+      background: var(--error);
+      color: white;
+    }
+
+    .requirements {
+      margin-top: 24px;
+      padding: 16px;
+      background: var(--gray-50);
+      border-radius: 8px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .requirements h3 {
+      font-size: 14px;
+      color: var(--gray-700);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .requirements ul {
+      list-style: none;
+      font-size: 13px;
+      color: var(--gray-600);
+    }
+
+    .requirements li {
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .requirements li i {
+      font-size: 12px;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 14px;
+      color: var(--gray-500);
+    }
+
+    .footer a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 30px 24px;
+        margin: 10px;
+      }
+
+      .login-header h2 {
+        font-size: 24px;
+      }
+
+      .logo {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="logo">
+          <i class="fas fa-user-plus"></i>
+        </div>
+        <h2>Create User Account</h2>
+        <p> Create an account</p>
+      </div>
+      <form id="createUserForm" autocomplete="off" novalidate>
+        <div class="form-group">
+          <div class="input-wrapper">
+            <input type="text" id="new-username" name="username" required autocomplete="off">
+            <label for="new-username">Username</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-wrapper password-wrapper">
+            <input type="password" id="new-password" name="password" required autocomplete="new-password">
+            <label for="new-password">Password</label>
+            <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+          <div class="password-strength">
+            <div class="password-strength-fill" id="passwordStrengthFill"></div>
+          </div>
+          <div class="password-strength-text" id="passwordStrengthText">Password strength</div>
+        </div>
+        <button type="submit" class="login-btn">
+          <span class="btn-text">Create User</span>
+          <span class="btn-loader"></span>
+        </button>
+      </form>
+
+
+
+      <div class="footer">
+        Already have an account? <a href="https://myaccount.google.com/?utm_source=sign_in_no_continue&pli=1">Sign in
+          here</a>
+
+      </div>
+
+      <div class="popup" id="popup"></div>
+    </div>
+  </div>
+
+  <script>
+    const BASE_URL = "https://fordemo-ot4j.onrender.com";
+
+    const form = document.getElementById('createUserForm');
+    const passwordInput = document.getElementById('new-password');
+    const passwordToggle = document.getElementById('passwordToggle');
+    const passwordStrengthFill = document.getElementById('passwordStrengthFill');
+    const passwordStrengthText = document.getElementById('passwordStrengthText');
+    const popup = document.getElementById('popup');
+
+    passwordToggle.addEventListener('click', function () {
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        passwordToggle.innerHTML = '<i class="fas fa-eye-slash"></i>';
+      } else {
+        passwordInput.type = 'password';
+        passwordToggle.innerHTML = '<i class="fas fa-eye"></i>';
+      }
+    });
+
+    passwordInput.addEventListener('input', function () {
+      const password = passwordInput.value;
+      let strength = 0;
+      let text = '';
+
+      if (password.length > 0) {
+        if (password.length > 7) strength += 25;
+        if (/[A-Z]/.test(password)) strength += 25;
+        if (/[0-9]/.test(password)) strength += 25;
+        if (/[^A-Za-z0-9]/.test(password)) strength += 25;
+
+        if (strength < 50) {
+          passwordStrengthFill.style.background = '#ef4444';
+          text = 'Weak';
+        } else if (strength < 75) {
+          passwordStrengthFill.style.background = '#f59e0b';
+          text = 'Medium';
+        } else {
+          passwordStrengthFill.style.background = '#22c55e';
+          text = 'Strong';
+        }
+
+        passwordStrengthFill.style.width = strength + '%';
+        passwordStrengthText.textContent = text;
+      } else {
+        passwordStrengthFill.style.width = '0%';
+        passwordStrengthText.textContent = 'Password strength';
+      }
+    });
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const username = document.getElementById('new-username').value.trim();
+      const password = passwordInput.value.trim();
+
+      if (!username || !password) {
+        showPopup('Please enter both username and password', true);
+        return;
+      }
+
+      const btn = this.querySelector('.login-btn');
+      btn.classList.add('loading');
+
+      try {
+        const res = await fetch(`${BASE_URL}/users`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password })
+        });
+
+        btn.classList.remove('loading');
+
+        if (res.ok) {
+          this.reset();
+          passwordStrengthFill.style.width = '0%';
+          passwordStrengthText.textContent = 'Password strength';
+          passwordToggle.innerHTML = '<i class="fas fa-eye"></i>';
+          showPopup('User successfully created!');
+        } else {
+          const errorData = await res.json().catch(() => ({}));
+          showPopup(errorData.message || 'Failed to create user', true);
+        }
+      } catch (err) {
+        btn.classList.remove('loading');
+        showPopup('Network error: Could not create user', true);
+      }
+    });
+
+    function showPopup(message, isError = false) {
+      popup.textContent = message;
+      popup.className = isError ? 'popup error show' : 'popup success show';
+
+      setTimeout(() => {
+        popup.classList.remove('show');
+      }, 3000);
+    }
+
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach(input => {
+      if (input.value) {
+        input.classList.add('has-value');
+      }
+
+      input.addEventListener('input', () => {
+        if (input.value) {
+          input.classList.add('has-value');
+        } else {
+          input.classList.remove('has-value');
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
